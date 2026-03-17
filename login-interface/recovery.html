@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CertiTalent - Recuperar contraseña</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Nunito:wght@400;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="logo">
+                <img src="logo_horizontal.svg" alt="CertiTalent Logo">
+            </div>
+            <h1>Recuperar contraseña</h1>
+            <p class="subtitle">Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.
+            </p>
+
+            <form id="recovery-form">
+                <div class="form-group">
+                    <label for="email">Correo electrónico</label>
+                    <input type="email" id="email" placeholder="tu@correo.com" required>
+                </div>
+
+                <div id="error-message" class="error-message hidden">
+                    No encontramos una cuenta asociada a este correo.
+                </div>
+
+                <div id="success-message" class="success-message hidden">
+                    Te enviamos un enlace de recuperación. Revisa tu correo electrónico.
+                </div>
+
+                <button type="submit" id="recovery-btn" class="login-btn">
+                    <span class="btn-text">Enviar enlace de recuperación</span>
+                    <div class="spinner hidden"></div>
+                </button>
+            </form>
+
+            <div class="footer">
+                <a href="index.html" class="forgot-link">Volver al inicio de sesión</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const recoveryForm = document.getElementById('recovery-form');
+        const recoveryBtn = document.getElementById('recovery-btn');
+        const btnText = recoveryBtn.querySelector('.btn-text');
+        const spinner = recoveryBtn.querySelector('.spinner');
+        const errorMessage = document.getElementById('error-message');
+        const successMessage = document.getElementById('success-message');
+
+        recoveryForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+
+            // Estado de carga
+            btnText.classList.add('hidden');
+            spinner.classList.remove('hidden');
+            recoveryBtn.disabled = true;
+            errorMessage.classList.add('hidden');
+            successMessage.classList.add('hidden');
+
+            // Simular proceso de recuperación
+            setTimeout(() => {
+                btnText.classList.remove('hidden');
+                spinner.classList.add('hidden');
+                recoveryBtn.disabled = false;
+
+                // Lógica de simulación: correo "error@test.com" falla, cualquier otro tiene éxito
+                if (email === 'error@test.com') {
+                    errorMessage.classList.remove('hidden');
+                } else {
+                    successMessage.classList.remove('hidden');
+                    recoveryForm.reset();
+                }
+            }, 1500);
+        });
+    </script>
+</body>
+
+</html>

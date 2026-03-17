@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración - CertiTalent</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Nunito:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <a href="index.html"><img src="logo.svg" alt="CertiTalent Logo"></a>
+            </div>
+            <div class="user-profile" id="profile-container">
+                <i class="fa-solid fa-circle-user fa-xl" style="color: var(--secondary)"></i>
+                <div class="profile-dropdown" id="profile-dropdown">
+                    <a href="profile.html"><i class="fa-solid fa-user"></i> Mi perfil</a>
+                    <a href="requests.html"><i class="fa-solid fa-clipboard-list"></i> Mis solicitudes</a>
+                    <a href="settings.html"><i class="fa-solid fa-gear"></i> Configuración</a>
+                    <hr>
+                    <a href="../login-interface/index.html"><i class="fa-solid fa-right-from-bracket"></i> Cerrar
+                        sesión</a>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="page-header">
+                <div>
+                    <h1>Configuración</h1>
+                    <p class="description">Gestiona las preferencias generales de la plataforma.</p>
+                </div>
+            </div>
+
+            <div class="settings-layout">
+                <form id="settings-form">
+                    <!-- Preferencias Generales -->
+                    <div class="card settings-card">
+                        <div class="card-header">
+                            <h2 class="section-title">Preferencias generales</h2>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="lang">Idioma</label>
+                                <select id="lang">
+                                    <option value="es" selected>Español</option>
+                                    <option value="en">Inglés</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="timezone">Zona horaria (UTC)</label>
+                                <select id="timezone">
+                                    <option value="-5" selected>(GMT-05:00) Bogota, Lima, Quito</option>
+                                    <option value="-4">(GMT-04:00) Caracas, La Paz</option>
+                                    <option value="0">(GMT+00:00) London, Dublin</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: 8px;">
+                            <label>Tema de la interfaz</label>
+                            <div class="theme-selector">
+                                <div class="theme-option active">
+                                    <i class="fa-solid fa-sun"></i> Claro
+                                </div>
+                                <div class="theme-option">
+                                    <i class="fa-solid fa-moon"></i> Oscuro (Próximamente)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notificaciones -->
+                    <div class="card settings-card" style="margin-top: 24px;">
+                        <div class="card-header">
+                            <h2 class="section-title">Notificaciones</h2>
+                        </div>
+                        <div class="toggle-group">
+                            <div class="toggle-item">
+                                <div class="toggle-info">
+                                    <strong>Notificaciones por correo</strong>
+                                    <p>Recibe resumen de actividades y alertas en tu email.</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" checked id="notif-email">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            <div class="toggle-item">
+                                <div class="toggle-info">
+                                    <strong>Alertas del sistema</strong>
+                                    <p>Recibe alertas instantáneas dentro de la plataforma.</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" checked id="notif-system">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Seguridad -->
+                    <div class="card settings-card" style="margin-top: 24px;">
+                        <div class="card-header">
+                            <h2 class="section-title">Seguridad</h2>
+                        </div>
+                        <div class="security-actions">
+                            <button type="button" class="btn btn-secondary">
+                                <i class="fa-solid fa-key"></i> Actualizar contraseña
+                            </button>
+                            <button type="button" class="btn btn-secondary"
+                                style="color: var(--error-text); border-color: var(--error-text);">
+                                <i class="fa-solid fa-shield-halved"></i> Cerrar todas las sesiones
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card-footer"
+                        style="margin-top: 32px; display: flex; gap: 12px; justify-content: flex-end; padding-bottom: 40px;">
+                        <a href="index.html" class="btn btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-primary" id="btn-save-settings" disabled>Guardar
+                            configuración</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast-msg">
+        <i class="fa-solid fa-circle-check toast-success"></i>
+        <div>
+            <span class="toast-success">¡Éxito!</span>
+            <p id="toast-text">Configuración guardada correctamente.</p>
+        </div>
+    </div>
+
+    <script>
+        // Dropdown logic
+        const profileContainer = document.getElementById('profile-container');
+        const profileDropdown = document.getElementById('profile-dropdown');
+        profileContainer.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('active');
+        });
+        document.addEventListener('click', (e) => {
+            if (!profileContainer.contains(e.target)) {
+                profileDropdown.classList.remove('active');
+            }
+        });
+
+        // Settings Logic
+        const settingsForm = document.getElementById('settings-form');
+        const btnSave = document.getElementById('btn-save-settings');
+        const controls = settingsForm.querySelectorAll('input, select');
+        const toast = document.getElementById('toast-msg');
+
+        controls.forEach(control => {
+            control.addEventListener('change', () => btnSave.disabled = false);
+            control.addEventListener('input', () => btnSave.disabled = false);
+        });
+
+        settingsForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            btnSave.disabled = true;
+            btnSave.innerText = 'Guardando...';
+            setTimeout(() => {
+                btnSave.innerText = 'Guardar configuración';
+                toast.classList.add('active');
+                setTimeout(() => toast.classList.remove('active'), 3000);
+            }, 800);
+        });
+    </script>
+
+    <style>
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 32px;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: var(--shadow);
+        }
+
+        .card-header {
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .theme-selector {
+            display: flex;
+            gap: 16px;
+            margin-top: 12px;
+        }
+
+        .theme-option {
+            flex: 1;
+            padding: 16px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--text-muted);
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .theme-option.active {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--bg-page);
+        }
+
+        .toggle-group {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .toggle-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .toggle-info strong {
+            display: block;
+            color: var(--secondary);
+            font-size: 14px;
+        }
+
+        .toggle-info p {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        /* Switch styles */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #CBD5E1;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+        }
+
+        input:checked+.slider {
+            background-color: var(--primary);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(20px);
+        }
+
+        .slider.round {
+            border-radius: 24px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+        .security-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+    </style>
+</body>
+
+</html>

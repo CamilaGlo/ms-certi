@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - CertiTalent</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Contenedor principal de la página de inicio de sesión -->
+    <div class="login-container">
+        <!-- Tarjeta que contiene el formulario de inicio de sesión -->
+        <div class="login-card">
+            <!-- Encabezado con título y descripción -->
+            <div class="login-header">
+                <h1>Welcome Back</h1>
+                <p>Please enter your credentials to continue.</p>
+            </div>
+
+            <!-- Formulario de inicio de sesión -->
+            <form id="loginForm" class="login-form">
+                <!-- Campo de correo electrónico -->
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="name@company.com" required>
+                </div>
+
+                <!-- Campo de contraseña con enlace de recuperación -->
+                <div class="input-group">
+                    <div class="label-row">
+                        <label for="password">Password</label>
+                        <a href="#" class="forgot-password">Forgot password?</a>
+                    </div>
+                    <input type="password" id="password" name="password" placeholder="••••••••" required>
+                </div>
+
+                <!-- Mensaje de error (oculto por defecto) -->
+                <div id="error-message" class="error-message" style="display: none;">
+                    Invalid email or password. Please try again.
+                </div>
+
+                <!-- Botón de envío del formulario -->
+                <button type="submit" id="loginBtn" class="login-button">
+                    <span class="btn-text">Log In</span>
+                    <!-- Indicador de carga estilo spinner (oculto por defecto) -->
+                    <span class="loader" style="display: none;"></span>
+                </button>
+            </form>
+
+            <!-- Pie de página con enlace de registro -->
+            <div class="login-footer">
+                <p>Don't have an account? <a href="#">Sign up</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Demostración de los estados de carga y error al enviar el formulario
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault(); // Evita la recarga de la página
+
+            // Referencias a los elementos del DOM
+            const btn = document.getElementById('loginBtn');
+            const btnText = btn.querySelector('.btn-text');
+            const loader = btn.querySelector('.loader');
+            const errorMessage = document.getElementById('error-message');
+
+            // Mostrar estado de carga: oculta el texto, muestra el loader y deshabilita el botón
+            btnText.style.display = 'none';
+            loader.style.display = 'inline-block';
+            btn.disabled = true;
+            // Ocultar mensaje de error si estaba visible
+            errorMessage.style.display = 'none';
+
+            // Simulando una llamada a una API (retraso de 2 segundos)
+            setTimeout(() => {
+                // Return to normal, but show error for demo
+                btnText.style.display = 'inline-block';
+                loader.style.display = 'none';
+                btn.disabled = false;
+                errorMessage.style.display = 'block';
+            }, 2000);
+        });
+    </script>
+</body>
+
+</html>

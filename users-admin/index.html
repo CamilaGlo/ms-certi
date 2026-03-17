@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administración de Usuarios - CertiTalent</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Nunito:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <img src="logo.svg" alt="CertiTalent Logo">
+            </div>
+            <div class="user-profile" id="profile-container">
+                <!-- Perfil simulado -->
+                <i class="fa-solid fa-circle-user fa-xl" style="color: var(--secondary)"></i>
+                <div class="profile-dropdown" id="profile-dropdown">
+                    <a href="profile.html"><i class="fa-solid fa-user"></i> Mi perfil</a>
+                    <a href="requests.html"><i class="fa-solid fa-clipboard-list"></i> Mis solicitudes</a>
+                    <a href="settings.html"><i class="fa-solid fa-gear"></i> Configuración</a>
+                    <hr>
+                    <a href="../login-interface/index.html"><i class="fa-solid fa-right-from-bracket"></i> Cerrar
+                        sesión</a>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="page-header">
+                <div>
+                    <h1>Administración de usuarios</h1>
+                    <p class="description">Gestiona los usuarios de la plataforma CertiTalent.</p>
+                </div>
+                <button class="btn btn-primary" id="btn-create-user">
+                    <i class="fa-solid fa-plus"></i> Crear usuario
+                </button>
+            </div>
+
+            <section class="filters-card">
+                <div class="search-input">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" placeholder="Buscar usuario..." id="search-box">
+                </div>
+                <select id="filter-role">
+                    <option value="">Todos los roles</option>
+                    <option value="Admin">Administrador</option>
+                    <option value="Editor">Editor</option>
+                    <option value="User">Usuario</option>
+                </select>
+                <select id="filter-status">
+                    <option value="">Todos los estados</option>
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                </select>
+            </section>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Correo electrónico</th>
+                            <th>Rol</th>
+                            <th>Estado</th>
+                            <th>Fecha de creación</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body">
+                        <!-- Usuarios simulados -->
+                        <tr>
+                            <td><span class="user-name">Camila Torres</span></td>
+                            <td><span class="user-email">c.torres@certitalent.com</span></td>
+                            <td>Administrador</td>
+                            <td><span class="badge badge-active">Activo</span></td>
+                            <td>12 May 2024</td>
+                            <td class="actions">
+                                <button class="btn-icon" title="Ver"><i class="fa-solid fa-eye"></i></button>
+                                <button class="btn-icon" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-icon" title="Desactivar"><i class="fa-solid fa-ban"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="user-name">Andrés Felipe</span></td>
+                            <td><span class="user-email">a.felipe@certitalent.com</span></td>
+                            <td>Editor</td>
+                            <td><span class="badge badge-active">Activo</span></td>
+                            <td>15 Jun 2024</td>
+                            <td class="actions">
+                                <button class="btn-icon" title="Ver"><i class="fa-solid fa-eye"></i></button>
+                                <button class="btn-icon" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-icon" title="Desactivar"><i class="fa-solid fa-ban"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="user-name">Lucía Méndez</span></td>
+                            <td><span class="user-email">l.mendez@certitalent.com</span></td>
+                            <td>Usuario</td>
+                            <td><span class="badge badge-inactive">Inactivo</span></td>
+                            <td>20 Jun 2024</td>
+                            <td class="actions">
+                                <button class="btn-icon" title="Ver"><i class="fa-solid fa-eye"></i></button>
+                                <button class="btn-icon" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-icon" title="Activar"><i class="fa-solid fa-check"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal para Crear/Editar Usuario -->
+    <div class="modal-overlay" id="modal-user">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-title">Crear usuario</h2>
+            </div>
+            <form id="user-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="first-name">Nombre</label>
+                        <input type="text" id="first-name" required placeholder="Ej: Juan">
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name">Apellido</label>
+                        <input type="text" id="last-name" required placeholder="Ej: Pérez">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="user-email">Correo electrónico</label>
+                    <input type="email" id="user-email" required placeholder="juan.perez@ejemplo.com">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="user-role">Rol</label>
+                        <select id="user-role" required>
+                            <option value="Admin">Administrador</option>
+                            <option value="Editor">Editor</option>
+                            <option value="User">Usuario</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="user-status">Estado</label>
+                        <select id="user-status" required>
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="btn-cancel">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" id="btn-save">Guardar usuario</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast-msg">
+        <i class="fa-solid fa-circle-check toast-success"></i>
+        <div>
+            <span class="toast-success">¡Éxito!</span>
+            <p id="toast-text">Usuario actualizado correctamente.</p>
+        </div>
+    </div>
+
+    <script>
+        const btnCreate = document.getElementById('btn-create-user');
+        const modal = document.getElementById('modal-user');
+        const btnCancel = document.getElementById('btn-cancel');
+        const userForm = document.getElementById('user-form');
+        const toast = document.getElementById('toast-msg');
+        const toastText = document.getElementById('toast-text');
+
+        // Perfil y Dropdown
+        const profileContainer = document.getElementById('profile-container');
+        const profileDropdown = document.getElementById('profile-dropdown');
+
+        profileContainer.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('active');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!profileContainer.contains(e.target)) {
+                profileDropdown.classList.remove('active');
+            }
+        });
+
+        // Abrir modal
+        btnCreate.addEventListener('click', () => {
+            document.getElementById('modal-title').innerText = 'Crear usuario';
+            modal.classList.add('active');
+        });
+
+        // Cerrar modal
+        btnCancel.addEventListener('click', () => {
+            modal.classList.remove('active');
+            userForm.reset();
+        });
+
+        // Simular guardado
+        userForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Mostrar estado de carga en botón
+            const btnSave = document.getElementById('btn-save');
+            const originalText = btnSave.innerHTML;
+            btnSave.disabled = true;
+            btnSave.innerText = 'Guardando...';
+
+            setTimeout(() => {
+                modal.classList.remove('active');
+                btnSave.disabled = false;
+                btnSave.innerHTML = originalText;
+
+                // Mostrar Toast
+                toastText.innerText = 'Usuario guardado correctamente.';
+                toast.classList.add('active');
+
+                setTimeout(() => {
+                    toast.classList.remove('active');
+                }, 3000);
+
+                userForm.reset();
+            }, 1000);
+        });
+
+        // Cerrar modal al hacer clic fuera
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+                userForm.reset();
+            }
+        });
+    </script>
+</body>
+
+</html>

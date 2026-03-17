@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi perfil - CertiTalent</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Nunito:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <a href="index.html"><img src="logo.svg" alt="CertiTalent Logo"></a>
+            </div>
+            <div class="user-profile" id="profile-container">
+                <i class="fa-solid fa-circle-user fa-xl" style="color: var(--secondary)"></i>
+                <div class="profile-dropdown" id="profile-dropdown">
+                    <a href="profile.html"><i class="fa-solid fa-user"></i> Mi perfil</a>
+                    <a href="requests.html"><i class="fa-solid fa-clipboard-list"></i> Mis solicitudes</a>
+                    <a href="settings.html"><i class="fa-solid fa-gear"></i> Configuración</a>
+                    <hr>
+                    <a href="../login-interface/index.html"><i class="fa-solid fa-right-from-bracket"></i> Cerrar
+                        sesión</a>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="page-header">
+                <div>
+                    <h1>Mi perfil</h1>
+                    <p class="description">Consulta y actualiza tu información personal.</p>
+                </div>
+            </div>
+
+            <div class="profile-layout">
+                <div class="card profile-card">
+                    <div class="card-header">
+                        <h2 class="section-title">Información personal</h2>
+                    </div>
+                    <form id="profile-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="first-name">Nombre</label>
+                                <input type="text" id="first-name" value="Camila" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="last-name">Apellido</label>
+                                <input type="text" id="last-name" value="Torres" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="profile-email">Correo electrónico</label>
+                            <input type="email" id="profile-email" value="c.torres@certitalent.com" readonly
+                                style="background-color: #F8FAFC; cursor: not-allowed;">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Rol</label>
+                                <input type="text" value="Administrador" readonly
+                                    style="background-color: #F8FAFC; cursor: not-allowed;">
+                            </div>
+                            <div class="form-group">
+                                <label>Estado</label>
+                                <div>
+                                    <span class="badge badge-active">Activo</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-header"
+                            style="margin-top: 24px; border-top: 1px solid var(--border); padding-top: 24px;">
+                            <h2 class="section-title">Seguridad</h2>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-secondary">
+                                <i class="fa-solid fa-key"></i> Cambiar contraseña
+                            </button>
+                        </div>
+
+                        <div class="card-footer"
+                            style="margin-top: 32px; display: flex; gap: 12px; justify-content: flex-end;">
+                            <a href="index.html" class="btn btn-secondary">Cancelar</a>
+                            <button type="submit" class="btn btn-primary" id="btn-save-profile" disabled>Guardar
+                                cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast-msg">
+        <i class="fa-solid fa-circle-check toast-success"></i>
+        <div>
+            <span class="toast-success">¡Éxito!</span>
+            <p id="toast-text">Perfil actualizado correctamente.</p>
+        </div>
+    </div>
+
+    <script>
+        // Perfil y Dropdown logic (Reusable)
+        const profileContainer = document.getElementById('profile-container');
+        const profileDropdown = document.getElementById('profile-dropdown');
+
+        profileContainer.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('active');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!profileContainer.contains(e.target)) {
+                profileDropdown.classList.remove('active');
+            }
+        });
+
+        // Form logic
+        const profileForm = document.getElementById('profile-form');
+        const btnSave = document.getElementById('btn-save-profile');
+        const inputs = profileForm.querySelectorAll('input:not([readonly])');
+        const toast = document.getElementById('toast-msg');
+
+        // Enable button on change
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                btnSave.disabled = false;
+            });
+        });
+
+        profileForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            btnSave.disabled = true;
+            btnSave.innerText = 'Guardando...';
+
+            setTimeout(() => {
+                btnSave.innerText = 'Guardar cambios';
+                toast.classList.add('active');
+                setTimeout(() => toast.classList.remove('active'), 3000);
+            }, 800);
+        });
+    </script>
+
+    <style>
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 32px;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: var(--shadow);
+        }
+
+        .card-header {
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .profile-layout {
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</body>
+
+</html>

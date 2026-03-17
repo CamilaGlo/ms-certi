@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitud de certificados - CertiTalent</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts: Montserrat (Headers) & Nunito (Body) -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Nunito:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Estilos específicos para el Grid de Tarjetas (Manteniendo consistencia con style.css) */
+        .certificates-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .cert-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 40px 32px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow);
+            height: 100%;
+        }
+
+        .cert-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 12px 24px rgba(42, 54, 98, 0.1);
+        }
+
+        .cert-icon-container {
+            width: 80px;
+            height: 80px;
+            background: var(--secondary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            color: var(--secondary);
+            font-size: 32px;
+            transition: all 0.3s ease;
+        }
+
+        .cert-card:hover .cert-icon-container {
+            background: var(--primary);
+            color: white;
+        }
+
+        .cert-card h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 16px;
+        }
+
+        .cert-card p {
+            font-family: 'Nunito', sans-serif;
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 32px;
+            flex-grow: 1;
+        }
+
+        .cert-card .btn {
+            width: 100%;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 1024px) {
+            .certificates-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .certificates-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cert-card {
+                padding: 32px 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <a href="index.html"><img src="logo.svg" alt="CertiTalent Logo"></a>
+            </div>
+            <div class="user-profile" id="profile-container">
+                <i class="fa-solid fa-circle-user fa-xl" style="color: var(--secondary)"></i>
+                <div class="profile-dropdown" id="profile-dropdown">
+                    <a href="profile.html"><i class="fa-solid fa-user"></i> Mi perfil</a>
+                    <a href="requests.html"><i class="fa-solid fa-clipboard-list"></i> Mis solicitudes</a>
+                    <a href="settings.html"><i class="fa-solid fa-gear"></i> Configuración</a>
+                    <hr>
+                    <a href="../login-interface/index.html"><i class="fa-solid fa-right-from-bracket"></i> Cerrar
+                        sesión</a>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <!-- Breadcrumbs pattern: Si la plataforma los usa, aquí estarían -->
+            <nav style="margin-bottom: 16px; font-size: 14px; display: flex; gap: 8px; color: var(--text-muted);">
+                <a href="index.html" style="color: var(--primary); text-decoration: none; font-weight: 600;">Inicio</a>
+                <span>/</span>
+                <span style="font-weight: 600;">Solicitud de certificados</span>
+            </nav>
+
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Hola, c.torres@certitalent.com</h1>
+                    <p class="description">Selecciona el tipo de certificado que deseas generar.</p>
+                </div>
+            </div>
+
+            <!-- Grid de Tarjetas -->
+            <div class="certificates-grid">
+
+                <!-- 1. Simple -->
+                <article class="cert-card">
+                    <div class="cert-icon-container">
+                        <i class="fa-solid fa-file-lines"></i>
+                    </div>
+                    <h3>Simple</h3>
+                    <p>Certificado básico con información esencial: nombre, cédula, cargo y fecha de ingreso/retiro.</p>
+                    <button class="btn btn-primary" onclick="requestCertificate('simple')">Solicitar
+                        certificado</button>
+                </article>
+
+                <!-- 2. Detallado -->
+                <article class="cert-card">
+                    <div class="cert-icon-container">
+                        <i class="fa-solid fa-file-invoice"></i>
+                    </div>
+                    <h3>Detallado</h3>
+                    <p>Incluye toda la información del certificado simple más detalles de los cargos desempeñados.</p>
+                    <button class="btn btn-primary" onclick="requestCertificate('detallado')">Solicitar
+                        certificado</button>
+                </article>
+
+                <!-- 3. Información salarial -->
+                <article class="cert-card">
+                    <div class="cert-icon-container">
+                        <i class="fa-solid fa-money-check-dollar"></i>
+                    </div>
+                    <h3>Información salarial</h3>
+                    <p>Certificado completo que además incluye detalles sobre el salario actual y compensaciones.</p>
+                    <button class="btn btn-primary" onclick="requestCertificate('salarial')">Solicitar
+                        certificado</button>
+                </article>
+
+            </div>
+
+            <!-- Ayuda / Pie de página sutil -->
+            <div style="margin-top: 60px; text-align: center; color: var(--text-muted); font-size: 14px;">
+                <p>¿Necesitas un certificado especial? <a href="#"
+                        style="color: var(--primary); font-weight: 700; text-decoration: none;">Contactar a soporte</a>
+                </p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notification (Reutilizado de profile/settings) -->
+    <div class="toast" id="toast-msg">
+        <i class="fa-solid fa-circle-check toast-success"></i>
+        <div>
+            <span class="toast-success">¡Solicitud Exitosa!</span>
+            <p id="toast-text">Tu certificado ha sido solicitado correctamente.</p>
+        </div>
+    </div>
+
+    <script>
+        // Lógica de navegación del perfil (Pattern Unificado)
+        const profileContainer = document.getElementById('profile-container');
+        const profileDropdown = document.getElementById('profile-dropdown');
+
+        profileContainer.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('active');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!profileContainer.contains(e.target)) {
+                profileDropdown.classList.remove('active');
+            }
+        });
+
+        // Simulación de solicitud de certificado
+        function requestCertificate(type) {
+            const toast = document.getElementById('toast-msg');
+            const toastText = document.getElementById('toast-text');
+
+            // Placeholder behavior
+            console.log(`Solicitando certificado tipo: ${type}`);
+
+            toastText.innerText = `Has solicitado un certificado ${type} con éxito. Puedes verlo en "Mis solicitudes".`;
+            toast.classList.add('active');
+
+            setTimeout(() => {
+                toast.classList.remove('active');
+                // Opcional: Redirigir a mis solicitudes después de un momento
+                // window.location.href = 'requests.html';
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>

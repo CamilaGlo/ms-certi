@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis solicitudes - CertiTalent</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts: Montserrat (Headers) & Nunito (Body) -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Nunito:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <a href="index.html"><img src="logo.svg" alt="CertiTalent Logo"></a>
+            </div>
+            <div class="user-profile" id="profile-container">
+                <i class="fa-solid fa-circle-user fa-xl" style="color: var(--secondary)"></i>
+                <div class="profile-dropdown" id="profile-dropdown">
+                    <a href="profile.html"><i class="fa-solid fa-user"></i> Mi perfil</a>
+                    <a href="requests.html"><i class="fa-solid fa-clipboard-list"></i> Mis solicitudes</a>
+                    <a href="settings.html"><i class="fa-solid fa-gear"></i> Configuración</a>
+                    <hr>
+                    <a href="../login-interface/index.html"><i class="fa-solid fa-right-from-bracket"></i> Cerrar
+                        sesión</a>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Mis solicitudes</h1>
+                    <p class="description">Consulta el estado de tus solicitudes y revisa su historial.</p>
+                </div>
+            </div>
+
+            <!-- Filtros: Usando estructura exacta de index.html -->
+            <div class="filters-card">
+                <div class="search-input">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="search-id" placeholder="Buscar por número de solicitud...">
+                </div>
+                <select id="filter-type">
+                    <option value="">Tipo de solicitud</option>
+                    <option value="certificacion">Certificación Laboral</option>
+                    <option value="soporte">Soporte Técnico</option>
+                    <option value="vacaciones">Solicitud de Vacaciones</option>
+                </select>
+                <select id="filter-status">
+                    <option value="">Estado</option>
+                    <option value="pendiente">Pendiente de revisión</option>
+                    <option value="aprobada">Aprobada</option>
+                    <option value="rechazada">Rechazada</option>
+                    <option value="proceso">En proceso</option>
+                </select>
+                <button class="btn btn-secondary" id="btn-reset-filters">
+                    <i class="fa-solid fa-arrow-rotate-left"></i> Limpiar
+                </button>
+            </div>
+
+            <!-- Contenedor de Datos/Estados -->
+            <div class="table-container" style="margin-top: 24px;">
+
+                <!-- Estado Cargando -->
+                <div id="state-loading" class="state-container hidden">
+                    <div class="spinner"></div>
+                    <p class="state-desc" style="margin-top: 16px;">Cargando solicitudes...</p>
+                </div>
+
+                <!-- Estado Error -->
+                <div id="state-error" class="state-container hidden">
+                    <i class="fa-solid fa-triangle-exclamation state-icon" style="color: var(--error-text);"></i>
+                    <h2 class="state-title">No fue posible cargar las solicitudes</h2>
+                    <p class="state-desc">Hubo un problema de conexión. Intenta nuevamente en unos momentos.</p>
+                    <button class="btn btn-secondary" onclick="loadContent('data')">Reintentar</button>
+                </div>
+
+                <!-- Estado Vacío -->
+                <div id="state-empty" class="state-container hidden">
+                    <i class="fa-solid fa-folder-open state-icon" style="color: var(--text-muted); opacity: 0.5;"></i>
+                    <h2 class="state-title">Sin resultados</h2>
+                    <p class="state-desc">No encontramos solicitudes que coincidan con los filtros seleccionados.</p>
+                </div>
+
+                <!-- Tabla de Datos: Paridad total con Administración -->
+                <div id="state-data" class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>N.° DE SOLICITUD</th>
+                                <th>FECHA</th>
+                                <th>TIPO DE SOLICITUD</th>
+                                <th>ESTADO</th>
+                                <th style="text-align: center;">ACCIONES</th>
+                            </tr>
+                        </thead>
+                        <tbody id="requests-tbody">
+                            <tr>
+                                <td><span class="user-name">#REQ-2024-001</span></td>
+                                <td>10 de marzo, 2024</td>
+                                <td>Certificación Laboral</td>
+                                <td><span class="badge badge-warning">Pendiente de revisión</span></td>
+                                <td class="actions" style="justify-content: center;">
+                                    <button class="btn-icon" title="Ver detalle"><i
+                                            class="fa-solid fa-eye"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="user-name">#REQ-2024-002</span></td>
+                                <td>08 de marzo, 2024</td>
+                                <td>Solicitud de Vacaciones</td>
+                                <td><span class="badge badge-active">Aprobada</span></td>
+                                <td class="actions" style="justify-content: center;">
+                                    <button class="btn-icon" title="Ver detalle"><i
+                                            class="fa-solid fa-eye"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="user-name">#REQ-2023-145</span></td>
+                                <td>20 de diciembre, 2023</td>
+                                <td>Soporte Técnico</td>
+                                <td><span class="badge badge-inactive">Rechazada</span></td>
+                                <td class="actions" style="justify-content: center;">
+                                    <button class="btn-icon" title="Ver detalle"><i
+                                            class="fa-solid fa-eye"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span class="user-name">#REQ-2024-005</span></td>
+                                <td>12 de marzo, 2024</td>
+                                <td>Otras solicitudes</td>
+                                <td><span class="badge badge-info">En proceso</span></td>
+                                <td class="actions" style="justify-content: center;">
+                                    <button class="btn-icon" title="Ver detalle"><i
+                                            class="fa-solid fa-eye"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Toggles de simulación (Estilo sutil) -->
+            <div style="margin-top: 48px; display: flex; gap: 12px; justify-content: center; opacity: 0.5;">
+                <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 11px; font-weight: 600;"
+                    onclick="loadContent('loading')">Prueba: Cargando</button>
+                <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 11px; font-weight: 600;"
+                    onclick="loadContent('empty')">Prueba: Vacío</button>
+                <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 11px; font-weight: 600;"
+                    onclick="loadContent('error')">Prueba: Error</button>
+                <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 11px; font-weight: 600;"
+                    onclick="loadContent('data')">Prueba: Datos</button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Perfil Dropdown Logic
+        const profileContainer = document.getElementById('profile-container');
+        const profileDropdown = document.getElementById('profile-dropdown');
+        profileContainer.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('active');
+        });
+        document.addEventListener('click', (e) => {
+            if (!profileContainer.contains(e.target)) {
+                profileDropdown.classList.remove('active');
+            }
+        });
+
+        // UI States Logic
+        function loadContent(state) {
+            showState('state-loading');
+            const targetId = state === 'data' ? 'state-data' : 'state-' + state;
+            setTimeout(() => showState(targetId), 600);
+        }
+
+        function showState(id) {
+            const states = ['state-loading', 'state-error', 'state-empty', 'state-data'];
+            states.forEach(s => {
+                const el = document.getElementById(s);
+                if (el) el.classList.add('hidden');
+            });
+            const target = document.getElementById(id);
+            if (target) target.classList.remove('hidden');
+        }
+
+        // Reset Filters
+        document.getElementById('btn-reset-filters').addEventListener('click', () => {
+            document.getElementById('search-id').value = '';
+            document.getElementById('filter-type').value = '';
+            document.getElementById('filter-status').value = '';
+            loadContent('data');
+        });
+    </script>
+</body>
+
+</html>
